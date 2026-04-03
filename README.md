@@ -1,5 +1,5 @@
 ## sparkjava-war-example-Sai
-Build war with maven and sparkjava framework
+Build war with maven and sparkjava framework..
 
 Steps:-
 
