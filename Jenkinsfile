@@ -1,23 +1,34 @@
 
-
 // Define the URL of the Artifactory registry
-def registry = 'https://trialcn8cgy.jfrog.io/'
+def registry = 'https://trial6uwj7u.jfrog.io/'
 
 
-pipeline {                                    // 1  // Defines the start of the Jenkins pipeline block
-    agent any                                 // Specifies the pipeline can run on any available agent
-    environment {                             // 2  // Defines environment variables for the pipeline
-        PATH = "/opt/maven/bin:$PATH"         // Adds Maven's path to the system's PATH variable
-    }                                         // 2  // Ends the environment block
-    stages {                                  // 3  // Defines the stages block where multiple stages are declared
-        stage('Build') {                      // 6  // Creates a stage named 'build'
-            steps {                           // 7  // Defines the steps that will be executed in this stage
-                sh 'mvn clean install'        // Runs the Maven clean install command to build the project
-            }                                 // 7  // Ends the steps block for 'build' stage
-        }                                     // 6  // Ends the 'build' stage
+pipeline {
+    agent any
 
+    environment {
+        PATH = "/opt/maven/bin:$PATH"
+    }
 
-    stage('SonarQube analysis') {
+    stages {
+
+        stage("build") {
+            steps {
+                echo "----------- build started ----------"
+                sh 'mvn clean deploy -Dmaven.test.skip=true'
+                echo "----------- build completed ----------"
+            }
+        }
+
+        stage("test") {
+            steps {
+                echo "----------- unit test started ----------"
+                sh 'mvn surefire-report:report'
+                echo "----------- unit test completed ----------"
+            }
+        }
+
+        stage('SonarQube analysis') {
             environment {
                 scannerHome = tool 'sonar-scanner'
             }
@@ -28,7 +39,8 @@ pipeline {                                    // 1  // Defines the start of the 
                 }
             }
         }
-     stage("Jar") {
+
+        stage("Jar Publish") {
             steps {
                 script {
                     echo '<--------------- Jar Publish Started --------------->'
@@ -55,7 +67,5 @@ pipeline {                                    // 1  // Defines the start of the 
 
 
 
-
-
-       }
+    }
 }
