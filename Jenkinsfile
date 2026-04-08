@@ -1,6 +1,6 @@
 
 // Define the URL of the Artifactory registry
-////def registry = 'https://trialcn8cgy.jfrog.io/'
+/def registry = 'https://trialcn8cgy.jfrog.io/'
 
 
 
