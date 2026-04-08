@@ -9,5 +9,18 @@ pipeline {                                    // 1  // Defines the start of the 
                 sh 'mvn clean install'        // Runs the Maven clean install command to build the project
             }                                 // 7  // Ends the steps block for 'build' stage
         }                                     // 6  // Ends the 'build' stage
-    }                                         // 3  // Ends the stages block
-}                                             // 1  // Ends the pipeline block
+
+
+    stage('SonarQube analysis') {
+            environment {
+                scannerHome = tool 'sonar-scanner'
+            }
+
+            steps {
+                withSonarQubeEnv('sonar-siva') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+            }
+        }
+       }
+}
