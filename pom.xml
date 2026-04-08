@@ -6,7 +6,7 @@
 
 	<groupId>sparkjava-hello-world</groupId>
 	<artifactId>sparkjava-hello-world</artifactId>
-	<version>1.0</version>
+	<version>1.0.RELEASE</version>
 	<packaging>war</packaging>
 
 	<dependencies>
